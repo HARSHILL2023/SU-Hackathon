@@ -83,6 +83,18 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
   const [cottonYarnState, setCottonYarnState] = useState(0); // 0: Idle, 1: Awaiting, 2: Approved
   const [machineHealthState, setMachineHealthState] = useState(0); // 0: Healthy, 1: Dispatched
 
+  // Request ID Tracking
+  const [activeRequestIds, setActiveRequestIds] = useState({
+    yarn: null,
+    truck: null,
+    deadStock: null,
+    solar: null,
+    mahaparv: null,
+    cottonYarn: null,
+    machineHealth: null,
+    whatsapp: null
+  });
+
   // Core Agent States (0: Idle, 1: Active/Syncing, 2: Completed)
   const [coreStates, setCoreStates] = useState({
     1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0
@@ -117,31 +129,31 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
           setActiveRequests(currentRequests);
           currentRequests.forEach(req => {
             if (req.status === 'Approved') {
-              if (req.agentName === 'YarnAI' && yarnState === 2) setYarnState(3);
-              if (req.agentName === 'LogisticsAI' && truckState === 2) setTruckState(3);
-              if (req.agentName === 'LiquidityAI' && deadStockState === 2) setDeadStockState(3);
-              if (req.agentName === 'EnergyAI' && solarState === 2) setSolarState(3);
-              if (req.agentName === 'SwarmAI' && mahaparvState === 2) setMahaparvState(3);
-              if (req.agentName === 'InventoryAI' && cottonYarnState === 1) {
+              if (req._id === activeRequestIds.yarn && yarnState === 2) setYarnState(3);
+              if (req._id === activeRequestIds.truck && truckState === 2) setTruckState(3);
+              if (req._id === activeRequestIds.deadStock && deadStockState === 2) setDeadStockState(3);
+              if (req._id === activeRequestIds.solar && solarState === 2) setSolarState(3);
+              if (req._id === activeRequestIds.mahaparv && mahaparvState === 2) setMahaparvState(3);
+              if (req._id === activeRequestIds.cottonYarn && cottonYarnState === 1) {
                 setCottonYarnState(2);
                 setYarnReordered(true);
               }
-              if (req.agentName === 'MaintenanceAI' && machineHealthState === 1) {
+              if (req._id === activeRequestIds.machineHealth && machineHealthState === 1) {
                 setMachineHealthState(2);
                 setTicketGenerated(true);
               }
-              if (req.agentName === 'WhatsAppAI' && waStep === 3) {
+              if (req._id === activeRequestIds.whatsapp && waStep === 3) {
                 setWaStep(4);
                 setYarnReordered(true);
                 setSystemEvents(p => [{ id: Date.now(), time: new Date().toLocaleTimeString(), msg: `WhatsApp AI: Order Approved by Owner via Terminal.`, type: 'success' }, ...p]);
               }
             } else if (req.status === 'Rejected') {
-              if (req.agentName === 'YarnAI' && yarnState === 2) { setYarnState(0); setLastAgentMsg(p => ({ ...p, yarn: "Owner REJECTED the bulk order." })); }
-              if (req.agentName === 'LogisticsAI' && truckState === 2) { setTruckState(0); setLastAgentMsg(p => ({ ...p, truck: "Owner REJECTED the booking." })); }
-              if (req.agentName === 'LiquidityAI' && deadStockState === 2) { setDeadStockState(0); setLastAgentMsg(p => ({ ...p, deadStock: "Owner REJECTED the stock liquidation." })); }
-              if (req.agentName === 'EnergyAI' && solarState === 2) { setSolarState(0); setLastAgentMsg(p => ({ ...p, solar: "Owner REJECTED the energy shift." })); }
-              if (req.agentName === 'SwarmAI' && mahaparvState === 2) { setMahaparvState(0); setLastAgentMsg(p => ({ ...p, mahaparv: "Owner REJECTED the pattern change." })); }
-              if (req.agentName === 'WhatsAppAI' && waStep === 3) {
+              if (req._id === activeRequestIds.yarn && yarnState === 2) { setYarnState(0); setLastAgentMsg(p => ({ ...p, yarn: "Owner REJECTED the bulk order." })); }
+              if (req._id === activeRequestIds.truck && truckState === 2) { setTruckState(0); setLastAgentMsg(p => ({ ...p, truck: "Owner REJECTED the booking." })); }
+              if (req._id === activeRequestIds.deadStock && deadStockState === 2) { setDeadStockState(0); setLastAgentMsg(p => ({ ...p, deadStock: "Owner REJECTED the stock liquidation." })); }
+              if (req._id === activeRequestIds.solar && solarState === 2) { setSolarState(0); setLastAgentMsg(p => ({ ...p, solar: "Owner REJECTED the energy shift." })); }
+              if (req._id === activeRequestIds.mahaparv && mahaparvState === 2) { setMahaparvState(0); setLastAgentMsg(p => ({ ...p, mahaparv: "Owner REJECTED the pattern change." })); }
+              if (req._id === activeRequestIds.whatsapp && waStep === 3) {
                 setWaStep(4);
                 setOwnerReply('no'); // Force rejection UI
                 setSystemEvents(p => [{ id: Date.now(), time: new Date().toLocaleTimeString(), msg: 'WhatsApp AI: Order REJECTED by Owner via Terminal.', type: 'warning' }, ...p]);
@@ -161,10 +173,12 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
   const triggerOwnerRequest = async (agentName, type, details) => {
     try {
-      await api.post("/ai/request", { agentName, requestType: type, details });
+      const res = await api.post("/ai/request", { agentName, requestType: type, details });
       setSystemEvents(prev => [{ id: Date.now(), time: new Date().toLocaleTimeString(), msg: `Signal sent to Owner Command Terminal: ${type}`, type: 'info' }, ...prev]);
+      return res.data; // Return the created request object with _id
     } catch (err) {
       console.error("Request error:", err);
+      return null;
     }
   };
 
@@ -723,10 +737,11 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   {yarnState === 1 && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
                       <button className="btn-primary" style={{ flex: 1, background: '#10b981', border: 'none', color: 'black', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
-                        onClick={() => {
+                        onClick={async () => {
                           setYarnState(2);
                           setLastAgentMsg(prev => ({ ...prev, yarn: "Proposed PO: 500kg. Waiting for Owner Approval in Command Terminal..." }));
-                          triggerOwnerRequest('YarnAI', 'Purchase Order', 'Order 500kg Cotton Yarn from Sharma Suppliers at ₹240/kg.');
+                          const req = await triggerOwnerRequest('YarnAI', 'Purchase Order', 'Order 500kg Cotton Yarn from Sharma Suppliers at ₹240/kg.');
+                          if (req?._id) setActiveRequestIds(prev => ({ ...prev, yarn: req._id }));
                         }}
                       >Request Approval</button>
                       <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setYarnState(0)}>Wait</button>
@@ -775,10 +790,11 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   {mahaparvState === 1 && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
                       <button className="btn-primary" style={{ flex: 1, background: '#ec4899', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
-                        onClick={() => {
+                        onClick={async () => {
                           setMahaparvState(2);
                           setLastAgentMsg(prev => ({ ...prev, mahaparv: "Requesting Pattern Shift approval from Owner Terminal..." }));
-                          triggerOwnerRequest('SwarmAI', 'Pattern Shift', 'Re-program Looms 1-3 to Dobby Weave for wedding season surge.');
+                          const req = await triggerOwnerRequest('SwarmAI', 'Pattern Shift', 'Re-program Looms 1-3 to Dobby Weave for wedding season surge.');
+                          if (req?._id) setActiveRequestIds(prev => ({ ...prev, mahaparv: req._id }));
                         }}
                       >Request Shift</button>
                       <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setMahaparvState(0)}>Later</button>
@@ -814,9 +830,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   className="btn-primary"
                   style={{ width: '100%', background: cottonYarnState === 2 ? 'var(--accent)' : cottonYarnState === 1 ? 'rgba(59, 130, 246, 0.2)' : '#ef4444', fontSize: '0.8rem', padding: '8px', border: cottonYarnState === 1 ? '1px solid #60a5fa' : 'none', color: cottonYarnState === 1 ? '#60a5fa' : 'white', cursor: (cottonYarnState === 2 || cottonYarnState === 1) ? 'default' : 'pointer', borderRadius: '6px', fontWeight: 'bold', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                   disabled={cottonYarnState === 2 || cottonYarnState === 1 || yarnLoading}
-                  onClick={() => {
+                  onClick={async () => {
                     setCottonYarnState(1);
-                    triggerOwnerRequest('InventoryAI', 'Material Reorder', 'Auto-reorder 500kg Cotton Yarn due to low stock alert.');
+                    const req = await triggerOwnerRequest('InventoryAI', 'Material Reorder', 'Auto-reorder 500kg Cotton Yarn due to low stock alert.');
+                    if (req?._id) setActiveRequestIds(prev => ({ ...prev, cottonYarn: req._id }));
                   }}
                 >
                   {cottonYarnState === 1 ? (
@@ -855,10 +872,11 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   {truckState === 1 && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
                       <button className="btn-primary" style={{ flex: 1, background: '#3b82f6', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
-                        onClick={() => {
+                        onClick={async () => {
                           setTruckState(2);
                           setLastAgentMsg(prev => ({ ...prev, truck: "Truck Request sent to Owner Terminal. Rate: ₹14,500." }));
-                          triggerOwnerRequest('LogisticsAI', 'Truck Booking', 'Book empty return-truck MH-09 for Surat delivery at ₹14,500.');
+                          const req = await triggerOwnerRequest('LogisticsAI', 'Truck Booking', 'Book empty return-truck MH-09 for Surat delivery at ₹14,500.');
+                          if (req?._id) setActiveRequestIds(prev => ({ ...prev, truck: req._id }));
                         }}
                       >Request Booking</button>
                       <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setTruckState(0)}>Decline</button>
@@ -907,10 +925,11 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   {deadStockState === 1 && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
                       <button className="btn-primary" style={{ flex: 1, background: '#f59e0b', border: 'none', color: 'black', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
-                        onClick={() => {
+                        onClick={async () => {
                           setDeadStockState(2);
                           setLastAgentMsg(prev => ({ ...prev, deadStock: "Sent bid of ₹4.25L to Owner Portal for final sign-off." }));
-                          triggerOwnerRequest('LiquidityAI', 'Stock Liquidation', 'Sell 3,000m rejected Navy Blue stock to Surat buyer for ₹4.25L.');
+                          const req = await triggerOwnerRequest('LiquidityAI', 'Stock Liquidation', 'Sell 3,000m rejected Navy Blue stock to Surat buyer for ₹4.25L.');
+                          if (req?._id) setActiveRequestIds(prev => ({ ...prev, deadStock: req._id }));
                         }}
                       >Request Sell</button>
                       <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setDeadStockState(0)}>Wait</button>
@@ -959,10 +978,11 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   {solarState === 1 && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
                       <button className="btn-primary" style={{ flex: 1, background: '#eab308', border: 'none', color: 'black', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
-                        onClick={() => {
+                        onClick={async () => {
                           setSolarState(2);
                           setLastAgentMsg(prev => ({ ...prev, solar: "Energy shift proposal sent to Owner Command Terminal." }));
-                          triggerOwnerRequest('EnergyAI', 'Energy Grid Shift', 'Shift high-torque looms (4, 5, 8, 9) to solar grid to save ₹2,400.');
+                          const req = await triggerOwnerRequest('EnergyAI', 'Energy Grid Shift', 'Shift high-torque looms (4, 5, 8, 9) to solar grid to save ₹2,400.');
+                          if (req?._id) setActiveRequestIds(prev => ({ ...prev, solar: req._id }));
                         }}
                       >Request Shift</button>
                       <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setSolarState(0)}>Ignore</button>
@@ -1004,7 +1024,9 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                     setMachineVibration(val);
                     if (val > 85 && machineHealthState === 0) {
                       setMachineHealthState(1);
-                      triggerOwnerRequest('MaintenanceAI', 'Emergency Repair', `CRITICAL: Loom Vibration spiked to ${val}Hz. Dispatched technician requested.`);
+                      triggerOwnerRequest('MaintenanceAI', 'Emergency Repair', `CRITICAL: Loom Vibration spiked to ${val}Hz. Dispatched technician requested.`).then(req => {
+                        if (req?._id) setActiveRequestIds(p => ({ ...p, machineHealth: req._id }));
+                      });
                     }
                   }}
                   style={{ width: '100%', marginTop: '1rem', accentColor: machineVibration > 85 ? 'var(--danger)' : machineVibration > 65 ? 'var(--warning)' : 'var(--accent)', cursor: 'ew-resize' }}
@@ -1225,9 +1247,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                         setTimeout(() => {
                           setWaStep(2); // Sent user bubble
                           if (lowerReply !== 'no') {
-                            setTimeout(() => {
+                            setTimeout(async () => {
                               setWaStep(3); // Wait for REAL owner
-                              triggerOwnerRequest('WhatsAppAI', 'WhatsApp Reorder', `Approve bulk reorder of 500kg Yarn from ${supplierName}.`);
+                              const req = await triggerOwnerRequest('WhatsAppAI', 'WhatsApp Reorder', `Approve bulk reorder of 500kg Yarn from ${supplierName}.`);
+                              if (req?._id) setActiveRequestIds(prev => ({ ...prev, whatsapp: req._id }));
                             }, 800);
                           } else {
                             setTimeout(() => {
@@ -1254,9 +1277,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                       setTimeout(() => {
                         setWaStep(2); // Sent user bubble
                         if (lowerReply !== 'no') {
-                          setTimeout(() => {
+                          setTimeout(async () => {
                             setWaStep(3); // Wait for REAL owner
-                            triggerOwnerRequest('WhatsAppAI', 'WhatsApp Reorder', `Approve bulk reorder of 500kg Yarn from ${supplierName}.`);
+                            const req = await triggerOwnerRequest('WhatsAppAI', 'WhatsApp Reorder', `Approve bulk reorder of 500kg Yarn from ${supplierName}.`);
+                            if (req?._id) setActiveRequestIds(prev => ({ ...prev, whatsapp: req._id }));
                           }, 800);
                         } else {
                           setTimeout(() => {
