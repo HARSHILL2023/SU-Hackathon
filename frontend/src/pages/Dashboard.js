@@ -438,7 +438,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
         {agentsData.filter(a => categories.includes(a.category)).map(agent => (
           <div key={typeof agent.id === 'object' ? JSON.stringify(agent.id) : agent.id} style={{
-            background: 'rgba(255,255,255,0.02)',
+            background: 'var(--bg-dark)',
             border: '1px solid rgba(255,255,255,0.05)',
             borderRadius: '12px',
             padding: '16px',
@@ -446,7 +446,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
             cursor: 'default'
           }}
             onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(99, 102, 241, 0.05)'; e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.3)'; }}
-            onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; }}
+            onMouseOut={(e) => { e.currentTarget.style.background = 'var(--bg-dark)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
               <span style={{ fontSize: '0.65rem', background: 'rgba(255,255,255,0.1)', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{typeof agent.category === 'object' ? JSON.stringify(agent.category) : agent.category}</span>
@@ -463,7 +463,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
             {/* Interactive Logic for Core Systems */}
             {agent.category === 'Core Systems' && (
               <div style={{ marginTop: '12px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div style={{ fontSize: '0.65rem', color: '#94a3b8', fontStyle: 'italic', marginBottom: '2px', lineHeight: '1.4' }}>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontStyle: 'italic', marginBottom: '2px', lineHeight: '1.4' }}>
                   {
                     {
                       1: "Master control node balancing 52 sub-agents to prevent system lag.",
@@ -484,7 +484,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
                 {!coreStates[agent.id] && (
                   <button className="btn-primary"
-                    style={{ width: '100%', background: 'var(--primary)', border: 'none', color: 'white', padding: '6px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '800', cursor: 'pointer' }}
+                    style={{ width: '100%', background: 'var(--primary)', border: 'none', color: 'var(--bg-card)', padding: '6px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '800', cursor: 'pointer' }}
                     onClick={() => {
                       setCoreStates(prev => ({ ...prev, [agent.id]: 1 }));
                       const msgs = {
@@ -506,7 +506,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                 {coreStates[agent.id] === 1 && (
                   <div style={{ display: 'flex', gap: '4px' }}>
                     <button className="btn-primary"
-                      style={{ flex: 1, background: 'var(--accent)', border: 'none', color: 'black', padding: '6px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '800', cursor: 'pointer' }}
+                      style={{ flex: 1, background: 'var(--accent)', border: 'none', color: 'white', padding: '6px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '800', cursor: 'pointer' }}
                       onClick={() => {
                         setCoreStates(prev => ({ ...prev, [agent.id]: 2 }));
                         triggerOwnerRequest(agent.name.split(' ')[0] + 'AI', 'System Orchestration', lastAgentMsg.core[agent.id]).then(req => {
@@ -516,7 +516,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                     >
                       Process Now
                     </button>
-                    <button className="btn-primary" style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: 'white', padding: '6px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '800', cursor: 'pointer' }} onClick={() => setCoreStates(prev => ({ ...prev, [agent.id]: 0 }))}>Hold</button>
+                    <button className="btn-primary" style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: 'var(--bg-card)', padding: '6px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '800', cursor: 'pointer' }} onClick={() => setCoreStates(prev => ({ ...prev, [agent.id]: 0 }))}>Hold</button>
                   </div>
                 )}
 
@@ -597,7 +597,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
   }, [machineVibration, cottonYarnState, maintenanceScore, inventoryAlerts]);
 
   return (
-    <div className="dashboard-container" style={{ display: 'flex', background: '#070b14', minHeight: '100vh', color: 'white', overflow: 'hidden' }}>
+    <div className="dashboard-container" style={{ display: 'flex', background: '#070b14', minHeight: '100vh', color: 'var(--bg-card)', overflow: 'hidden' }}>
       {/* Sidebar */}
       <nav className="sidebar">
         <div className="logo">
@@ -681,7 +681,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
           <select
             value={userRole}
             onChange={(e) => setUserRole(e.target.value)}
-            style={{ width: '100%', background: 'rgba(0,0,0,0.2)', color: 'white', border: '1px solid var(--border)', padding: '10px', borderRadius: '8px', fontSize: '0.75rem', marginBottom: '1rem', cursor: 'pointer' }}
+            style={{ width: '100%', background: 'var(--bg-card)', color: 'var(--bg-card)', border: '1px solid var(--border)', padding: '10px', borderRadius: '8px', fontSize: '0.75rem', marginBottom: '1rem', cursor: 'pointer' }}
           >
             <option value="Operator">👷 OPERATOR VIEW</option>
             <option value="Manager">📊 MANAGER VIEW</option>
@@ -695,7 +695,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
               onClick={() => setIsAiLearningMode(!isAiLearningMode)}
             >
               <div className={`learning-dot ${isAiLearningMode ? 'active' : ''}`} />
-              <div style={{ width: '32px', height: '18px', background: isAiLearningMode ? 'var(--primary)' : '#334155', borderRadius: '10px', position: 'relative', transition: '0.3s' }}>
+              <div style={{ width: '32px', height: '18px', background: isAiLearningMode ? 'var(--primary)' : 'var(--border)', borderRadius: '10px', position: 'relative', transition: '0.3s' }}>
                 <div style={{ width: '14px', height: '14px', background: 'white', borderRadius: '50%', position: 'absolute', top: '2px', left: isAiLearningMode ? '16px' : '2px', transition: '0.3s' }} />
               </div>
             </div>
@@ -719,10 +719,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
         <header className="header">
           <div className="welcome-text">
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-              <span className="badge" style={{ background: 'var(--primary)', color: 'white', padding: '4px 12px', borderRadius: '20px', fontSize: '0.65rem', fontWeight: '800', letterSpacing: '1px' }}>
+              <span className="badge" style={{ background: 'var(--primary)', color: 'var(--bg-card)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.65rem', fontWeight: '800', letterSpacing: '1px' }}>
                 {userRole.toUpperCase()} ACCESS
               </span>
-              {userRole === 'Owner' && <span className="badge" style={{ background: 'rgba(234, 179, 8, 0.1)', color: '#eab308', border: '1px solid #eab308' }}>PREMIUM ROLE</span>}
+              {userRole === 'Owner' && <span className="badge" style={{ background: 'rgba(234, 179, 8, 0.1)', color: 'var(--accent)', border: '1px solid var(--accent)' }}>PREMIUM ROLE</span>}
             </div>
             <h1>{lang === 'EN' ? `Welcome, ${userRole === 'Owner' ? 'Strategic Owner' : userRole}` : `${userRole === 'Owner' ? 'रणनीतिक मालिक' : userRole} का स्वागत है`}</h1>
             <p>{lang === 'EN' ? 'Real-time intelligence and AI-driven optimization' : 'रीयल-टाइम इंटेलिजेंस और एआई-संचालित अनुकूलन'}</p>
@@ -757,7 +757,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
         {activeTab === 'overview' && (
           <>
-            <div className="executive-banner" style={{ background: 'linear-gradient(135deg, #4f46e5 0%, #0f172a 100%)', padding: '2.5rem', borderRadius: '1.5rem', marginBottom: '2.5rem', position: 'relative', overflow: 'hidden', boxShadow: '0 20px 50px rgba(0,0,0,0.3)' }}>
+            <div className="executive-banner" style={{ background: 'linear-gradient(135deg, #4f46e5 0%, var(--bg-dark) 100%)', padding: '2.5rem', borderRadius: '1.5rem', marginBottom: '2.5rem', position: 'relative', overflow: 'hidden', boxShadow: '0 20px 50px rgba(0,0,0,0.3)' }}>
               <div style={{ position: 'relative', zIndex: 2 }}>
                 <h2 style={{ fontSize: '2.4rem', fontWeight: '800', marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>TexTech Intelligence Hub</h2>
                 <p style={{ color: 'rgba(255,255,255,0.8)', maxWidth: '700px', fontSize: '1.1rem', lineHeight: '1.6' }}>
@@ -794,7 +794,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
               boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
             }}>
               <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-                <div style={{ background: 'var(--primary)', color: 'white', padding: '12px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)' }}>
+                <div style={{ background: 'var(--primary)', color: 'var(--bg-card)', padding: '12px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)' }}>
                   <TrendingUp size={24} />
                 </div>
                 <div>
@@ -876,7 +876,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   </div>
 
                   {yarnState === 0 && (
-                    <button className="btn-primary" style={{ width: '100%', background: '#10b981', border: 'none', color: 'black', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', marginTop: 'auto' }}
+                    <button className="btn-primary" style={{ width: '100%', background: '#10b981', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', marginTop: 'auto' }}
                       onClick={() => {
                         setYarnState(1);
                         setLastAgentMsg(prev => ({ ...prev, yarn: "Mandi prices are rising. 500kg order will save ₹12,000 if placed now. Shall I draft the PO?" }));
@@ -886,7 +886,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
                   {yarnState === 1 && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
-                      <button className="btn-primary" style={{ flex: 1, background: '#10b981', border: 'none', color: 'black', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
+                      <button className="btn-primary" style={{ flex: 1, background: '#10b981', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
                         onClick={async () => {
                           setYarnState(2);
                           setLastAgentMsg(prev => ({ ...prev, yarn: "Proposed PO: 500kg. Waiting for Owner Approval in Command Terminal..." }));
@@ -894,13 +894,13 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                           if (req?._id) setActiveRequestIds(prev => ({ ...prev, yarn: req._id }));
                         }}
                       >Request Approval</button>
-                      <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setYarnState(0)}>Wait</button>
+                      <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setYarnState(0)}>Wait</button>
                     </div>
                   )}
 
                   {yarnState === 2 && (
-                    <div style={{ marginTop: 'auto', textAlign: 'center', padding: '8px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '6px', color: '#60a5fa', fontWeight: 'bold', fontSize: '0.8rem', border: '1px solid rgba(59, 130, 246, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                      <div className="pulse" style={{ width: '8px', height: '8px', background: '#60a5fa', borderRadius: '50%' }}></div>
+                    <div style={{ marginTop: 'auto', textAlign: 'center', padding: '8px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '6px', color: 'var(--primary)', fontWeight: 'bold', fontSize: '0.8rem', border: '1px solid rgba(59, 130, 246, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <div className="pulse" style={{ width: '8px', height: '8px', background: 'var(--primary)', borderRadius: '50%' }}></div>
                       Waiting for Owner...
                     </div>
                   )}
@@ -929,7 +929,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   </div>
 
                   {mahaparvState === 0 && (
-                    <button className="btn-primary" style={{ width: '100%', background: '#ec4899', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', marginTop: 'auto' }}
+                    <button className="btn-primary" style={{ width: '100%', background: '#ec4899', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', marginTop: 'auto' }}
                       onClick={() => {
                         setMahaparvState(1);
                         setLastAgentMsg(prev => ({ ...prev, mahaparv: "I can re-program Looms 1-3 to the wedding design set. Expected revenue increase: ₹1.8L. Execute shift?" }));
@@ -939,7 +939,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
                   {mahaparvState === 1 && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
-                      <button className="btn-primary" style={{ flex: 1, background: '#ec4899', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
+                      <button className="btn-primary" style={{ flex: 1, background: '#ec4899', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
                         onClick={async () => {
                           setMahaparvState(2);
                           setLastAgentMsg(prev => ({ ...prev, mahaparv: "Requesting Pattern Shift approval from Owner Terminal..." }));
@@ -947,7 +947,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                           if (req?._id) setActiveRequestIds(prev => ({ ...prev, mahaparv: req._id }));
                         }}
                       >Request Shift</button>
-                      <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setMahaparvState(0)}>Later</button>
+                      <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setMahaparvState(0)}>Later</button>
                     </div>
                   )}
 
@@ -974,11 +974,11 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   </div>
                   <span className="badge" style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', fontSize: '0.65rem', fontWeight: '800', border: '1px solid rgba(239, 68, 68, 0.3)' }}>LOW MATERIAL</span>
                 </div>
-                <div style={{ fontSize: '1.2rem', fontWeight: '800', color: '#ffffff', marginBottom: '8px' }}>Cotton Yarn</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--bg-card)fff', marginBottom: '8px' }}>Cotton Yarn</div>
                 <p style={{ fontSize: '0.75rem', opacity: 0.8, margin: 0, marginBottom: '1rem', lineHeight: 1.4, flex: 1, color: '#e2e8f0' }}>Stock depletion in 2 days</p>
                 <button
                   className="btn-primary"
-                  style={{ width: '100%', background: cottonYarnState === 2 ? 'var(--accent)' : cottonYarnState === 1 ? 'rgba(59, 130, 246, 0.2)' : '#ef4444', fontSize: '0.8rem', padding: '8px', border: cottonYarnState === 1 ? '1px solid #60a5fa' : 'none', color: cottonYarnState === 1 ? '#60a5fa' : 'white', cursor: (cottonYarnState === 2 || cottonYarnState === 1) ? 'default' : 'pointer', borderRadius: '6px', fontWeight: 'bold', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                  style={{ width: '100%', background: cottonYarnState === 2 ? 'var(--accent)' : cottonYarnState === 1 ? 'rgba(59, 130, 246, 0.2)' : '#ef4444', fontSize: '0.8rem', padding: '8px', border: cottonYarnState === 1 ? '1px solid var(--primary)' : 'none', color: cottonYarnState === 1 ? 'var(--primary)' : 'white', cursor: (cottonYarnState === 2 || cottonYarnState === 1) ? 'default' : 'pointer', borderRadius: '6px', fontWeight: 'bold', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                   disabled={cottonYarnState === 2 || cottonYarnState === 1 || yarnLoading}
                   onClick={async () => {
                     setCottonYarnState(1);
@@ -988,7 +988,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                 >
                   {cottonYarnState === 1 ? (
                     <>
-                      <div className="pulse" style={{ width: '8px', height: '8px', background: '#60a5fa', borderRadius: '50%' }}></div>
+                      <div className="pulse" style={{ width: '8px', height: '8px', background: 'var(--primary)', borderRadius: '50%' }}></div>
                       Waiting for Owner...
                     </>
                   ) : cottonYarnState === 2 ? 'Material Ordered ✅' : 'Auto-Reorder Material'}
@@ -996,22 +996,22 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
               </div>
 
               {/* RESTORED: Empty-Truck Matchmaker */}
-              <div className="stat-card" style={{ border: '1px solid rgba(59, 130, 246, 0.3)', background: 'linear-gradient(180deg, rgba(30, 58, 138, 0.4) 0%, rgba(23, 37, 84, 0.8) 100%)', display: 'flex', flexDirection: 'column' }}>
+              <div className="stat-card" style={{ border: '1px solid rgba(59, 130, 246, 0.3)', background: 'var(--card-gradient)', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#60a5fa', fontSize: '0.8rem', fontWeight: 'bold' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontSize: '0.8rem', fontWeight: 'bold' }}>
                     <Layers size={14} /> Empty-Truck Matchmaker
                   </div>
-                  <span className="badge" style={{ background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa', fontSize: '0.65rem', fontWeight: '800', border: '1px solid rgba(59, 130, 246, 0.3)' }}>LOGISTICS</span>
+                  <span className="badge" style={{ background: 'rgba(59, 130, 246, 0.15)', color: 'var(--primary)', fontSize: '0.65rem', fontWeight: '800', border: '1px solid rgba(59, 130, 246, 0.3)' }}>LOGISTICS</span>
                 </div>
-                <div style={{ fontSize: '1.2rem', fontWeight: '800', color: '#60a5fa', marginBottom: '8px' }}>Surat Route: 40% Off</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--primary)', marginBottom: '8px' }}>Surat Route: 40% Off</div>
 
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ background: 'rgba(59, 130, 246, 0.1)', padding: '10px', borderRadius: '8px', fontSize: '0.8rem', color: '#e2e8f0', borderLeft: '3px solid #3b82f6' }}>
+                  <div style={{ background: 'rgba(59, 130, 246, 0.1)', padding: '10px', borderRadius: '8px', fontSize: '0.8rem', color: '#e2e8f0', borderLeft: '3px solid var(--primary)' }}>
                     <strong>LogisticsAI:</strong> {lastAgentMsg.truck}
                   </div>
 
                   {truckState === 0 && (
-                    <button className="btn-primary" style={{ width: '100%', background: '#3b82f6', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', marginTop: 'auto' }}
+                    <button className="btn-primary" style={{ width: '100%', background: 'var(--primary)', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', marginTop: 'auto' }}
                       onClick={() => {
                         setTruckState(1);
                         setLastAgentMsg(prev => ({ ...prev, truck: "I have 200 rolls ready. Negotiating ₹14,500 rate with driver MH-09. Book now?" }));
@@ -1021,7 +1021,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
                   {truckState === 1 && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
-                      <button className="btn-primary" style={{ flex: 1, background: '#3b82f6', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
+                      <button className="btn-primary" style={{ flex: 1, background: 'var(--primary)', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
                         onClick={async () => {
                           setTruckState(2);
                           setLastAgentMsg(prev => ({ ...prev, truck: "Truck Request sent to Owner Terminal. Rate: ₹14,500." }));
@@ -1029,19 +1029,19 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                           if (req?._id) setActiveRequestIds(prev => ({ ...prev, truck: req._id }));
                         }}
                       >Request Booking</button>
-                      <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setTruckState(0)}>Decline</button>
+                      <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setTruckState(0)}>Decline</button>
                     </div>
                   )}
 
                   {truckState === 2 && (
-                    <div style={{ marginTop: 'auto', textAlign: 'center', padding: '8px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '6px', color: '#60a5fa', fontWeight: 'bold', fontSize: '0.8rem', border: '1px solid rgba(59, 130, 246, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                      <div className="pulse" style={{ width: '8px', height: '8px', background: '#60a5fa', borderRadius: '50%' }}></div>
+                    <div style={{ marginTop: 'auto', textAlign: 'center', padding: '8px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '6px', color: 'var(--primary)', fontWeight: 'bold', fontSize: '0.8rem', border: '1px solid rgba(59, 130, 246, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <div className="pulse" style={{ width: '8px', height: '8px', background: 'var(--primary)', borderRadius: '50%' }}></div>
                       Awaiting Owner...
                     </div>
                   )}
 
                   {truckState === 3 && (
-                    <div style={{ marginTop: 'auto', textAlign: 'center', padding: '8px', background: 'rgba(59, 130, 246, 0.2)', borderRadius: '6px', color: '#60a5fa', fontWeight: 'bold', fontSize: '0.8rem' }}>
+                    <div style={{ marginTop: 'auto', textAlign: 'center', padding: '8px', background: 'rgba(59, 130, 246, 0.2)', borderRadius: '6px', color: 'var(--primary)', fontWeight: 'bold', fontSize: '0.8rem' }}>
                       Booking Approved 🚚
                     </div>
                   )}
@@ -1064,7 +1064,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   </div>
 
                   {deadStockState === 0 && (
-                    <button className="btn-primary" style={{ width: '100%', background: '#f59e0b', border: 'none', color: 'black', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', marginTop: 'auto' }}
+                    <button className="btn-primary" style={{ width: '100%', background: '#f59e0b', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', marginTop: 'auto' }}
                       onClick={() => {
                         setDeadStockState(1);
                         setLastAgentMsg(prev => ({ ...prev, deadStock: "I found 3 buyers in Surat interested in this Poly-Cotton batch. Current best bid: ₹4.25L. Accept?" }));
@@ -1074,7 +1074,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
                   {deadStockState === 1 && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
-                      <button className="btn-primary" style={{ flex: 1, background: '#f59e0b', border: 'none', color: 'black', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
+                      <button className="btn-primary" style={{ flex: 1, background: '#f59e0b', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
                         onClick={async () => {
                           setDeadStockState(2);
                           setLastAgentMsg(prev => ({ ...prev, deadStock: "Sent bid of ₹4.25L to Owner Portal for final sign-off." }));
@@ -1082,7 +1082,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                           if (req?._id) setActiveRequestIds(prev => ({ ...prev, deadStock: req._id }));
                         }}
                       >Request Sell</button>
-                      <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setDeadStockState(0)}>Wait</button>
+                      <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setDeadStockState(0)}>Wait</button>
                     </div>
                   )}
 
@@ -1104,20 +1104,20 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
               {/* RESTORED: Solar-Grid Load Shifter */}
               <div className="stat-card" style={{ border: '1px solid rgba(234, 179, 8, 0.3)', background: 'linear-gradient(180deg, rgba(66, 32, 6, 0.4) 0%, rgba(20, 10, 0, 0.8) 100%)', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#fde047', fontSize: '0.8rem', fontWeight: 'bold' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent)', fontSize: '0.8rem', fontWeight: 'bold' }}>
                     <Sparkles size={14} /> Solar-Grid Load Shifter
                   </div>
-                  <span className="badge" style={{ background: 'rgba(234, 179, 8, 0.15)', color: '#eab308', fontSize: '0.65rem', fontWeight: '800', border: '1px solid rgba(234, 179, 8, 0.3)' }}>ENERGY SAVE</span>
+                  <span className="badge" style={{ background: 'rgba(234, 179, 8, 0.15)', color: 'var(--accent)', fontSize: '0.65rem', fontWeight: '800', border: '1px solid rgba(234, 179, 8, 0.3)' }}>ENERGY SAVE</span>
                 </div>
-                <div style={{ fontSize: '1.2rem', fontWeight: '800', color: '#eab308', marginBottom: '8px' }}>Peak Solar: 3.2kW</div>
+                <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--accent)', marginBottom: '8px' }}>Peak Solar: 3.2kW</div>
 
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ background: 'rgba(234, 179, 8, 0.1)', padding: '10px', borderRadius: '8px', fontSize: '0.8rem', color: '#e2e8f0', borderLeft: '3px solid #eab308' }}>
+                  <div style={{ background: 'rgba(234, 179, 8, 0.1)', padding: '10px', borderRadius: '8px', fontSize: '0.8rem', color: '#e2e8f0', borderLeft: '3px solid var(--accent)' }}>
                     <strong>EnergyAI:</strong> {lastAgentMsg.solar}
                   </div>
 
                   {solarState === 0 && (
-                    <button className="btn-primary" style={{ width: '100%', background: '#eab308', border: 'none', color: 'black', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', marginTop: 'auto' }}
+                    <button className="btn-primary" style={{ width: '100%', background: 'var(--accent)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', marginTop: 'auto' }}
                       onClick={() => {
                         setSolarState(1);
                         setLastAgentMsg(prev => ({ ...prev, solar: "Grid prices are spiking. Shifting 4 high-torque looms to solar grid will save ₹2,400 today. Align?" }));
@@ -1127,7 +1127,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
                   {solarState === 1 && (
                     <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
-                      <button className="btn-primary" style={{ flex: 1, background: '#eab308', border: 'none', color: 'black', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
+                      <button className="btn-primary" style={{ flex: 1, background: 'var(--accent)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }}
                         onClick={async () => {
                           setSolarState(2);
                           setLastAgentMsg(prev => ({ ...prev, solar: "Energy shift proposal sent to Owner Command Terminal." }));
@@ -1135,19 +1135,19 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                           if (req?._id) setActiveRequestIds(prev => ({ ...prev, solar: req._id }));
                         }}
                       >Request Shift</button>
-                      <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'white', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setSolarState(0)}>Ignore</button>
+                      <button className="btn-primary" style={{ flex: 1, background: 'rgba(255,255,255,0.1)', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' }} onClick={() => setSolarState(0)}>Ignore</button>
                     </div>
                   )}
 
                   {solarState === 2 && (
-                    <div style={{ marginTop: 'auto', textAlign: 'center', padding: '8px', background: 'rgba(234, 179, 8, 0.1)', borderRadius: '6px', color: '#eab308', fontWeight: 'bold', fontSize: '0.8rem', border: '1px solid rgba(234, 179, 8, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                      <div className="pulse" style={{ width: '8px', height: '8px', background: '#eab308', borderRadius: '50%' }}></div>
+                    <div style={{ marginTop: 'auto', textAlign: 'center', padding: '8px', background: 'rgba(234, 179, 8, 0.1)', borderRadius: '6px', color: 'var(--accent)', fontWeight: 'bold', fontSize: '0.8rem', border: '1px solid rgba(234, 179, 8, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                      <div className="pulse" style={{ width: '8px', height: '8px', background: 'var(--accent)', borderRadius: '50%' }}></div>
                       Awaiting Owner...
                     </div>
                   )}
 
                   {solarState === 3 && (
-                    <div style={{ marginTop: 'auto', textAlign: 'center', padding: '8px', background: 'rgba(234, 179, 8, 0.2)', borderRadius: '6px', color: '#eab308', fontWeight: 'bold', fontSize: '0.8rem' }}>
+                    <div style={{ marginTop: 'auto', textAlign: 'center', padding: '8px', background: 'rgba(234, 179, 8, 0.2)', borderRadius: '6px', color: 'var(--accent)', fontWeight: 'bold', fontSize: '0.8rem' }}>
                       Grid Shift Approved ⚡
                     </div>
                   )}
@@ -1210,10 +1210,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                         <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
-                    <XAxis dataKey="name" stroke="#94a3b8" />
-                    <YAxis stroke="#94a3b8" domain={['dataMin - 2', 'dataMax + 2']} />
-                    <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }} itemStyle={{ color: '#f8fafc' }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+                    <XAxis dataKey="name" stroke="var(--text-muted)" />
+                    <YAxis stroke="var(--text-muted)" domain={['dataMin - 2', 'dataMax + 2']} />
+                    <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px' }} itemStyle={{ color: 'var(--text-main)' }} />
                     <Area type="monotone" dataKey="pei" stroke="var(--primary)" fillOpacity={1} fill="url(#colorPei)" />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -1284,13 +1284,13 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
                 {/* Real Twilio SMS Trigger */}
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center', background: 'rgba(0,0,0,0.3)', padding: '4px 12px', borderRadius: '20px', border: '1px solid rgba(37,211,102,0.3)' }}>
-                  <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Live Demo:</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Live Demo:</span>
                   <input
                     type="text"
                     placeholder="+1234567890"
                     value={twilioPhone}
                     onChange={(e) => setTwilioPhone(e.target.value)}
-                    style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '0.85rem', outline: 'none', width: '120px' }}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--bg-card)', fontSize: '0.85rem', outline: 'none', width: '120px' }}
                   />
                   <button
                     onClick={async () => {
@@ -1313,7 +1313,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                       }
                     }}
                     disabled={twilioSent}
-                    style={{ background: twilioSent ? '#334155' : '#25D366', color: twilioSent ? '#94a3b8' : '#000', border: 'none', borderRadius: '12px', padding: '4px 10px', fontSize: '0.75rem', fontWeight: 'bold', cursor: twilioSent ? 'default' : 'pointer' }}
+                    style={{ background: twilioSent ? 'var(--border)' : '#25D366', color: twilioSent ? 'var(--text-muted)' : '#000', border: 'none', borderRadius: '12px', padding: '4px 10px', fontSize: '0.75rem', fontWeight: 'bold', cursor: twilioSent ? 'default' : 'pointer' }}
                   >
                     {twilioSent ? 'Sent ✅' : 'Send Alert 🚀'}
                   </button>
@@ -1436,7 +1436,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   <div className="stat-label font-bold text-red-400">Action: Pre-heat DG Sets</div>
                   <button
                     className="btn-primary"
-                    style={{ width: '100%', marginTop: '1rem', background: '#f59e0b', fontSize: '0.75rem', padding: '0.5rem', border: 'none', color: 'black', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px' }}
+                    style={{ width: '100%', marginTop: '1rem', background: '#f59e0b', fontSize: '0.75rem', padding: '0.5rem', border: 'none', color: 'white', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px' }}
                     onClick={() => alert('Generators Synced. Loom downtime prevented during load shedding.')}
                   >
                     <Cpu size={14} style={{ display: 'inline', marginRight: '4px' }} /> Auto-Sync Generators
@@ -1453,7 +1453,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   <div className="stat-label">Shift B (Weavers)</div>
                   <button
                     className="btn-primary"
-                    style={{ width: '100%', marginTop: '1rem', background: '#f97316', fontSize: '0.75rem', padding: '0.5rem', border: 'none', color: 'white', cursor: 'pointer', borderRadius: '4px' }}
+                    style={{ width: '100%', marginTop: '1rem', background: '#f97316', fontSize: '0.75rem', padding: '0.5rem', border: 'none', color: 'var(--bg-card)', cursor: 'pointer', borderRadius: '4px' }}
                     onClick={() => {
                       alert('Shift Rotation Optimized! Relief workers assigned to Sector 4.');
                       setSafety(prev => ({ ...prev, ppeCompliance: 100 }));
@@ -1468,10 +1468,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
               <div className="stat-card" style={{ marginTop: '1.5rem', background: 'linear-gradient(90deg, rgba(59, 130, 246, 0.05) 0%, transparent 100%)', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ flex: 1, paddingRight: '20px' }}>
-                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#60a5fa', margin: '0 0 10px 0' }}><Mic size={20} /> Voice-Assisted Operator Panel (Hindi/Marwari)</h3>
+                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--primary)', margin: '0 0 10px 0' }}><Mic size={20} /> Voice-Assisted Operator Panel (Hindi/Marwari)</h3>
                     <p style={{ opacity: 0.8, fontSize: '0.9rem', margin: 0 }}>Designed for shop-floor workers. No typing required. Just tap and speak to log downtime or request maintenance.</p>
                   </div>
-                  <button className="btn-primary" style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '15px 30px', borderRadius: '30px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 4px 15px rgba(59, 130, 246, 0.4)' }}>
+                  <button className="btn-primary" style={{ background: 'var(--primary)', color: 'var(--bg-card)', border: 'none', padding: '15px 30px', borderRadius: '30px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 4px 15px rgba(59, 130, 246, 0.4)' }}>
                     <Mic size={18} /> Hold to Speak
                   </button>
                 </div>
@@ -1521,21 +1521,21 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                     <div className="pulse" style={{ width: '8px', height: '8px', background: '#ef4444', borderRadius: '50%' }}></div>
                   </div>
                   <p style={{ opacity: 0.8, fontSize: '0.9rem', marginBottom: '1.5rem' }}>Projected spatial AI view of machine telemetry. Visualizes invisible mechanical stress points using "Heatwave" spatial mapping.</p>
-                  <button className="btn-primary" style={{ width: '100%', background: 'linear-gradient(90deg, #a855f7, #8b5cf6)', border: 'none', color: 'white', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>Load 3D Spatial Twin</button>
+                  <button className="btn-primary" style={{ width: '100%', background: 'linear-gradient(90deg, #a855f7, #8b5cf6)', border: 'none', color: 'var(--bg-card)', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>Load 3D Spatial Twin</button>
                 </div>
 
                 <div className="stat-card" style={{ background: 'linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%)', border: '1px solid rgba(59, 130, 246, 0.3)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <Network size={22} color="#3b82f6" />
-                      <h3 style={{ margin: 0, color: '#3b82f6' }}>Quantum-Swarm 'Omni-Orchestrator'</h3>
+                      <Network size={22} color="var(--primary)" />
+                      <h3 style={{ margin: 0, color: 'var(--primary)' }}>Quantum-Swarm 'Omni-Orchestrator'</h3>
                     </div>
-                    <div style={{ background: 'rgba(59, 130, 246, 0.1)', border: '1px solid #3b82f6', color: '#60a5fa', padding: '4px 8px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 'bold', textAlign: 'center' }}>
+                    <div style={{ background: 'rgba(59, 130, 246, 0.1)', border: '1px solid var(--primary)', color: 'var(--primary)', padding: '4px 8px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 'bold', textAlign: 'center' }}>
                       GLOBAL OPTIMUM<br />99.98%
                     </div>
                   </div>
                   <p style={{ opacity: 0.8, fontSize: '0.9rem', marginBottom: '1.5rem' }}>Meta-AI synchronizing all 28 agents. Micro-adjusts looms 100x/sec to perfectly balance Speed vs. Energy vs. Quality.</p>
-                  <button className="btn-primary" style={{ width: '100%', background: 'linear-gradient(90deg, #3b82f6, #6366f1)', border: 'none', color: 'white', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>Engage Universal Orchestration</button>
+                  <button className="btn-primary" style={{ width: '100%', background: 'linear-gradient(90deg, var(--primary), #6366f1)', border: 'none', color: 'var(--bg-card)', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>Engage Universal Orchestration</button>
                 </div>
 
                 {/* RESTORED: Thermal AI Lint-Fire Predictor */}
@@ -1547,7 +1547,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                     </div>
                     <div style={{ textAlign: 'right' }}>
                       <div style={{ fontSize: '0.7rem', color: '#ef4444', fontWeight: 'bold', textTransform: 'uppercase' }}>Surface Temp</div>
-                      <div style={{ fontSize: '1.8rem', fontWeight: '900', color: 'white' }}>42<span style={{ fontSize: '1rem', color: '#94a3b8' }}>°C</span></div>
+                      <div style={{ fontSize: '1.8rem', fontWeight: '900', color: 'var(--bg-card)' }}>42<span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>°C</span></div>
                       <div style={{ fontSize: '0.65rem', color: '#10b981', fontWeight: 'bold' }}>SAFE RANGE</div>
                     </div>
                   </div>
@@ -1560,7 +1560,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                       <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#8b5cf6', margin: '0 0 10px 0' }}><Users size={20} /> ML 'Karigar' (Skill-Atlas) Indexer</h3>
                       <p style={{ opacity: 0.8, fontSize: '0.9rem', margin: 0 }}>Automatically maps worker output quality against specific machines and yarn types. Suggests the best weaver for complex Suiting/Shirting orders to minimize loom-stoppage.</p>
                     </div>
-                    <button className="btn-primary" style={{ background: '#8b5cf6', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>Assign Best Karigar</button>
+                    <button className="btn-primary" style={{ background: '#8b5cf6', color: 'var(--bg-card)', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>Assign Best Karigar</button>
                   </div>
                 </div>
               </div>
@@ -1589,11 +1589,11 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                       </div>
 
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                        <div style={{ background: 'rgba(0,0,0,0.2)', padding: '8px', borderRadius: '8px', textAlign: 'center' }}>
+                        <div style={{ background: 'var(--bg-card)', padding: '8px', borderRadius: '8px', textAlign: 'center' }}>
                           <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Temp</div>
                           <div style={{ fontSize: '0.85rem', fontWeight: '800', color: m.temp > 80 && m.name.includes('Loom') ? 'var(--danger)' : 'white' }}>{typeof m.temp === 'object' ? JSON.stringify(m.temp) : m.temp}°C</div>
                         </div>
-                        <div style={{ background: 'rgba(0,0,0,0.2)', padding: '8px', borderRadius: '8px', textAlign: 'center' }}>
+                        <div style={{ background: 'var(--bg-card)', padding: '8px', borderRadius: '8px', textAlign: 'center' }}>
                           <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>RPM/Spd</div>
                           <div style={{ fontSize: '0.85rem', fontWeight: '800' }}>{typeof m.rpm === 'object' ? JSON.stringify(m.rpm) : m.rpm}</div>
                         </div>
@@ -1613,25 +1613,25 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   <h3 className="section-title" style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px', color: '#a78bfa' }}>
                     <Video size={22} /> Live Computer Vision Defect Detection
                   </h3>
-                  <span className="badge" style={{ background: '#8b5cf6', color: 'white' }}>MODEL: YOLOv8 (EDGE)</span>
+                  <span className="badge" style={{ background: '#8b5cf6', color: 'var(--bg-card)' }}>MODEL: YOLOv8 (EDGE)</span>
                 </div>
                 <div style={{
-                  width: '100%', height: '220px', background: '#000', borderRadius: '12px', position: 'relative', overflow: 'hidden',
+                  width: '100%', height: '220px', background: 'var(--text-main)', borderRadius: '12px', position: 'relative', overflow: 'hidden',
                   backgroundImage: 'url("https://www.fibre2fashion.com/news/images/270/shutterstock_1854497641_289356.jpg")',
-                  backgroundSize: 'cover', backgroundPosition: 'center', border: '2px solid #1e293b'
+                  backgroundSize: 'cover', backgroundPosition: 'center', border: '2px solid var(--bg-card)'
                 }}>
                   {/* Simulated Scanner Line */}
                   <div style={{ position: 'absolute', top: 0, left: '30%', width: '4px', height: '100%', background: 'rgba(139, 92, 246, 0.7)', boxShadow: '0 0 15px #8b5cf6', animation: 'scan 3s infinite linear' }}></div>
                   {/* Simulated Defect Box */}
                   <div style={{ position: 'absolute', top: '40%', left: '45%', border: '2px solid #f43f5e', width: '50px', height: '50px', backgroundColor: 'rgba(244, 63, 94, 0.2)' }}>
-                    <div style={{ background: '#f43f5e', color: 'white', fontSize: '0.6rem', padding: '2px 4px', fontWeight: 'bold', position: 'absolute', top: '-18px', left: '-2px', whiteSpace: 'nowrap' }}>
+                    <div style={{ background: '#f43f5e', color: 'var(--bg-card)', fontSize: '0.6rem', padding: '2px 4px', fontWeight: 'bold', position: 'absolute', top: '-18px', left: '-2px', whiteSpace: 'nowrap' }}>
                       1.2mm Yarn Breakage (97%)
                     </div>
                   </div>
                   {/* Recording indicator */}
                   <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', alignItems: 'center', gap: '5px', background: 'rgba(0,0,0,0.5)', padding: '4px 8px', borderRadius: '4px' }}>
                     <div style={{ width: '8px', height: '8px', background: '#ef4444', borderRadius: '50%', animation: 'pulse 1.5s infinite' }}></div>
-                    <span style={{ fontSize: '0.7rem', color: 'white', fontWeight: 'bold' }}>LIVE FEED - Loom 4</span>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--bg-card)', fontWeight: 'bold' }}>LIVE FEED - Loom 4</span>
                   </div>
                 </div>
                 <style>{`
@@ -1663,7 +1663,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   <div className="stat-label">Projected Revenue Impact/Day</div>
                   <button
                     className="btn-primary"
-                    style={{ width: '100%', marginTop: '1rem', background: downtimePrediction.failureRisk === 'CRITICAL' ? 'var(--danger)' : 'rgba(255,255,255,0.05)', fontSize: '0.75rem', padding: '0.5rem', border: 'none', color: 'white', cursor: 'pointer', borderRadius: '4px' }}
+                    style={{ width: '100%', marginTop: '1rem', background: downtimePrediction.failureRisk === 'CRITICAL' ? 'var(--danger)' : 'rgba(255,255,255,0.05)', fontSize: '0.75rem', padding: '0.5rem', border: 'none', color: 'var(--bg-card)', cursor: 'pointer', borderRadius: '4px' }}
                     onClick={() => {
                       alert('Maintenance Team Dispatched! Risk levels resetting...');
                       setDowntimePrediction(prev => ({ ...prev, failureRisk: 'Low', daysToNextService: '30+', potentialLoss: '₹0' }));
@@ -1712,7 +1712,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                           <div key={i} style={{ width: '4px', height: `${h}%`, background: h > 70 ? '#f43f5e' : '#ec4899', opacity: 0.8 }}></div>
                         ))}
                       </div>
-                      <button className="btn-primary" style={{ background: '#ec4899', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', whiteSpace: 'nowrap' }} onClick={() => alert("Listening for 4kHz ultrasonic resonance... Result: Bearings on all running looms are stable. No micro-pits detected.")}>Listen for Bearing Wear</button>
+                      <button className="btn-primary" style={{ background: '#ec4899', color: 'var(--bg-card)', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', whiteSpace: 'nowrap' }} onClick={() => alert("Listening for 4kHz ultrasonic resonance... Result: Bearings on all running looms are stable. No micro-pits detected.")}>Listen for Bearing Wear</button>
                     </div>
                   </div>
                 </div>
@@ -1728,7 +1728,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                       <span style={{ fontSize: '1.8rem', fontWeight: '900', color: '#10b981' }}>-82%</span>
                     </div>
                   </div>
-                  <button className="btn-primary" style={{ width: '100%', background: '#10b981', color: 'black', border: 'none', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }} onClick={() => alert("Swayam-Siddha Micro-Pulse triggered! Molecular friction heat reduced instantly. Machine life extended.")}>Execute Maintenance Micro-Pulse</button>
+                  <button className="btn-primary" style={{ width: '100%', background: '#10b981', color: 'white', border: 'none', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }} onClick={() => alert("Swayam-Siddha Micro-Pulse triggered! Molecular friction heat reduced instantly. Machine life extended.")}>Execute Maintenance Micro-Pulse</button>
                 </div>
               </div>
 
@@ -1754,7 +1754,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   <div className="stat-label">pH imbalance in Dye Tank 2</div>
                   <button
                     className="btn-primary"
-                    style={{ width: '100%', marginTop: '1rem', background: '#0ea5e9', fontSize: '0.75rem', padding: '0.5rem', border: 'none', color: 'white', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px' }}
+                    style={{ width: '100%', marginTop: '1rem', background: '#0ea5e9', fontSize: '0.75rem', padding: '0.5rem', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px' }}
                     onClick={() => alert('Chemical Dosing Adjusted via IoT! ZLD (Zero Liquid Discharge) Compliance Restored.')}
                   >
                     <Wind size={14} style={{ display: 'inline', marginRight: '4px' }} /> Auto-Adjust Dosing
@@ -1854,10 +1854,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
               <div className="stat-card" style={{ marginTop: '1.5rem', background: 'linear-gradient(90deg, rgba(234, 179, 8, 0.05) 0%, transparent 100%)', border: '1px solid rgba(234, 179, 8, 0.2)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ flex: 1, paddingRight: '20px' }}>
-                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#eab308', margin: '0 0 10px 0' }}><CheckCircle size={20} /> AI Mending (Quality Repair) Copilot</h3>
+                    <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--accent)', margin: '0 0 10px 0' }}><CheckCircle size={20} /> AI Mending (Quality Repair) Copilot</h3>
                     <p style={{ opacity: 0.8, fontSize: '0.9rem', margin: 0 }}>Bridges Loom Computer Vision data directly to manual mending workers. Instead of checking an entire 100m roll manually, the AI points the worker exactly to the defect locations.</p>
                   </div>
-                  <button className="btn-primary" style={{ background: '#eab308', color: 'black', border: 'none', padding: '12px 24px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <button className="btn-primary" style={{ background: 'var(--accent)', color: 'white', border: 'none', padding: '12px 24px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Wind size={18} /> Alert Mending Team
                   </button>
                 </div>
@@ -1867,15 +1867,15 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
               <div className="stat-card" style={{ marginTop: '1.5rem', background: 'rgba(99, 102, 241, 0.05)' }}>
                 <h3 className="section-title">Yarn Count & Fabric Mix Optimization</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-                  <div style={{ padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '12px' }}>
+                  <div style={{ padding: '1rem', background: 'var(--bg-card)', borderRadius: '12px' }}>
                     <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>Suggested Count</div>
                     <div style={{ fontSize: '1.2rem', fontWeight: '800' }}>{typeof yarnOpt.suggestedCount === 'object' ? JSON.stringify(yarnOpt.suggestedCount) : yarnOpt.suggestedCount || '30s Cotton'}</div>
                   </div>
-                  <div style={{ padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '12px' }}>
+                  <div style={{ padding: '1rem', background: 'var(--bg-card)', borderRadius: '12px' }}>
                     <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>Cost Saving per kg</div>
                     <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--accent)' }}>₹{typeof yarnOpt.costSavingPerKg === 'object' ? JSON.stringify(yarnOpt.costSavingPerKg) : yarnOpt.costSavingPerKg || '12.5'}</div>
                   </div>
-                  <div style={{ padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '12px' }}>
+                  <div style={{ padding: '1rem', background: 'var(--bg-card)', borderRadius: '12px' }}>
                     <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>Blend Quality Factor</div>
                     <div style={{ fontSize: '1.2rem', fontWeight: '800' }}>{typeof yarnOpt.qualityFactor === 'object' ? JSON.stringify(yarnOpt.qualityFactor) : yarnOpt.qualityFactor || 'Exquisite'}</div>
                   </div>
@@ -1892,9 +1892,9 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                     <div style={{ textAlign: 'right' }}>
                       <div style={{ fontSize: '0.8rem', color: '#f472b6', fontWeight: 'bold' }}>GSM:</div>
-                      <div style={{ fontSize: '1.8rem', fontWeight: '900', color: 'white' }}>170<span style={{ fontSize: '1rem', color: '#94a3b8' }}>g</span></div>
+                      <div style={{ fontSize: '1.8rem', fontWeight: '900', color: 'var(--bg-card)' }}>170<span style={{ fontSize: '1rem', color: 'var(--text-muted)' }}>g</span></div>
                     </div>
-                    <button className="btn-primary" style={{ background: '#ec4899', color: 'white', border: 'none', padding: '12px 24px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <button className="btn-primary" style={{ background: '#ec4899', color: 'var(--bg-card)', border: 'none', padding: '12px 24px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <Settings size={18} /> Auto-Calibrate
                     </button>
                   </div>
@@ -1908,18 +1908,18 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                     <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#10b981', margin: '0 0 10px 0' }}><Recycle size={20} /> AI 'Chindi' (Textile Waste) Matchmaker</h3>
                     <p style={{ opacity: 0.8, fontSize: '0.9rem', margin: 0 }}>Stop sending fabric waste to the landfill. Our AI tracks your current "Chindi" volume and instantly matches you with local Bhilwara recyclers buying at the best per-kg rate.</p>
                   </div>
-                  <span className="badge" style={{ background: '#10b981', color: 'black', fontWeight: '900' }}>CIRCULAR ECONOMY</span>
+                  <span className="badge" style={{ background: '#10b981', color: 'white', fontWeight: '900' }}>CIRCULAR ECONOMY</span>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '20px', alignItems: 'center' }}>
                   <div style={{ background: 'rgba(0,0,0,0.3)', padding: '15px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '5px' }}>Current Scrap Volume</div>
-                    <div style={{ fontSize: '1.4rem', fontWeight: '900', color: 'white' }}>420 kg</div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '5px' }}>Current Scrap Volume</div>
+                    <div style={{ fontSize: '1.4rem', fontWeight: '900', color: 'var(--bg-card)' }}>420 kg</div>
                   </div>
                   <div style={{ background: 'rgba(0,0,0,0.3)', padding: '15px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '5px' }}>Market Rate (Bhilwara)</div>
+                    <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '5px' }}>Market Rate (Bhilwara)</div>
                     <div style={{ fontSize: '1.4rem', fontWeight: '900', color: '#10b981' }}>₹12 / kg</div>
                   </div>
-                  <button className="btn-primary" style={{ background: '#10b981', color: 'black', border: 'none', padding: '15px 30px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', height: '100%' }}>
+                  <button className="btn-primary" style={{ background: '#10b981', color: 'white', border: 'none', padding: '15px 30px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', height: '100%' }}>
                     Sell Scrap Locally
                   </button>
                 </div>
@@ -1944,7 +1944,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                       </div>
                     </div>
                   </div>
-                  <button className="btn-primary" style={{ background: '#0ea5e9', border: 'none', color: 'black', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }}><RefreshCcw size={16} style={{ display: 'inline', marginRight: '8px' }} /> Optimize Water Dosing</button>
+                  <button className="btn-primary" style={{ background: '#0ea5e9', border: 'none', color: 'white', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }}><RefreshCcw size={16} style={{ display: 'inline', marginRight: '8px' }} /> Optimize Water Dosing</button>
                 </div>
 
                 <div className="stat-card" style={{ background: 'linear-gradient(90deg, #1f1406 0%, transparent 100%)', border: '1px solid #f97316', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -1958,7 +1958,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                       <div style={{ fontSize: '0.6rem', opacity: 0.7 }}>Roll #BH902-X</div>
                     </div>
                   </div>
-                  <button className="btn-primary" style={{ background: '#f97316', border: 'none', color: 'white', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }}>Authenticate Roll Texture</button>
+                  <button className="btn-primary" style={{ background: '#f97316', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }}>Authenticate Roll Texture</button>
                 </div>
 
                 <div className="stat-card" style={{ background: 'linear-gradient(90deg, rgba(16, 185, 129, 0.1) 0%, transparent 100%)', border: '1px solid rgba(16, 185, 129, 0.3)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -1969,10 +1969,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                     </div>
                     <div style={{ textAlign: 'right' }}>
                       <div style={{ fontStyle: 'italic', color: '#10b981', fontSize: '0.9rem' }}>"Loom me hichki hai"</div>
-                      <div style={{ fontSize: '0.75rem', opacity: 0.8, display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'flex-end', color: '#60a5fa' }}><ArrowRight size={12} /> Periodic oscillation in motor drive detected.</div>
+                      <div style={{ fontSize: '0.75rem', opacity: 0.8, display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'flex-end', color: 'var(--primary)' }}><ArrowRight size={12} /> Periodic oscillation in motor drive detected.</div>
                     </div>
                   </div>
-                  <button className="btn-primary" style={{ background: '#10b981', border: 'none', color: 'black', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }}><Mic size={16} style={{ display: 'inline', marginRight: '8px' }} /> Listen to Karigar Slang</button>
+                  <button className="btn-primary" style={{ background: '#10b981', border: 'none', color: 'white', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }}><Mic size={16} style={{ display: 'inline', marginRight: '8px' }} /> Listen to Karigar Slang</button>
                 </div>
 
                 <div className="stat-card" style={{ background: 'linear-gradient(90deg, rgba(239, 68, 68, 0.1) 0%, transparent 100%)', border: '1px solid rgba(239, 68, 68, 0.3)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -1983,7 +1983,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                     </div>
                     <div style={{ width: '40px', height: '40px', background: 'radial-gradient(circle, #ef4444 2px, transparent 2px)', backgroundSize: '8px 8px', opacity: 0.5, borderRadius: '4px' }}></div>
                   </div>
-                  <button className="btn-primary" style={{ background: '#ef4444', border: 'none', color: 'white', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }}>Generate Heritage Weave</button>
+                  <button className="btn-primary" style={{ background: '#ef4444', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }}>Generate Heritage Weave</button>
                 </div>
               </div>
 
@@ -2000,7 +2000,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
           activeTab === 'finance' && (
             <div className="finance-panel animate-fade-in">
               <div className="stats-grid">
-                <div className="stat-card" style={{ background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(30, 41, 59, 0) 100%)' }}>
+                <div className="stat-card" style={{ background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, var(--bg-card) 100%)' }}>
                   <div className="stat-header"><span className="stat-label">Real-Time Profit Margin</span><DollarSign size={20} color="var(--accent)" /></div>
                   <div className="stat-value">₹{typeof profit.monthlyProfit === 'object' ? JSON.stringify(profit.monthlyProfit) : profit.monthlyProfit || '0'} Cr</div>
                   <div className="stat-label">Projection (Next 30D)</div>
@@ -2024,21 +2024,21 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
               {/* RESTORED: Finance Arbitrage Grid */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginTop: '1.5rem' }}>
-                <div className="stat-card" style={{ background: 'linear-gradient(180deg, #0f172a 0%, #172554 100%)', border: '1px solid #3b82f6', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div className="stat-card" style={{ background: 'linear-gradient(180deg, var(--bg-dark) 0%, #172554 100%)', border: '1px solid var(--primary)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <h4 style={{ margin: 0, color: '#93c5fd', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}><Globe size={16} /> Global Price Arbitrage</h4>
-                    <span style={{ fontSize: '0.6rem', color: '#60a5fa', fontWeight: 'bold', letterSpacing: '1px', textTransform: 'uppercase' }}>London/Bursa/China</span>
+                    <span style={{ fontSize: '0.6rem', color: 'var(--primary)', fontWeight: 'bold', letterSpacing: '1px', textTransform: 'uppercase' }}>London/Bursa/China</span>
                   </div>
                   <div>
-                    <div style={{ fontSize: '1.5rem', fontWeight: '800', color: '#3b82f6', marginBottom: '8px' }}>Arbitrage Gap: +₹14.2/m</div>
+                    <div style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--primary)', marginBottom: '8px' }}>Arbitrage Gap: +₹14.2/m</div>
                     <p style={{ fontSize: '0.8rem', opacity: 0.8, margin: 0, lineHeight: 1.4 }}>Detected price-drop in Turkish cotton yarn. Buy window open for next 3 hours.</p>
                   </div>
                   <div style={{ marginTop: 'auto' }}>
-                    <button className="btn-primary" style={{ width: '100%', background: '#3b82f6', border: 'none', color: 'white', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }} onClick={async () => { try { const res = await fetch('http://localhost:3001/owner/arbitrage', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ commodity: 'cotton', market: 'Bursa', volume: 500 }) }); const data = await res.json(); alert(data.message || 'Arbitrage locked successfully.'); } catch (err) { alert('Error: Could not reach the owner server at http://localhost:3001/owner/arbitrage. Please ensure the backend is running.'); } }}>Lock Arbitrage Window</button>
+                    <button className="btn-primary" style={{ width: '100%', background: 'var(--primary)', border: 'none', color: 'var(--bg-card)', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }} onClick={async () => { try { const res = await fetch('http://localhost:3001/owner/arbitrage', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ commodity: 'cotton', market: 'Bursa', volume: 500 }) }); const data = await res.json(); alert(data.message || 'Arbitrage locked successfully.'); } catch (err) { alert('Error: Could not reach the owner server at http://localhost:3001/owner/arbitrage. Please ensure the backend is running.'); } }}>Lock Arbitrage Window</button>
                   </div>
                 </div>
 
-                <div className="stat-card" style={{ background: 'linear-gradient(180deg, #0f172a 0%, #064e3b 100%)', border: '1px solid #10b981', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div className="stat-card" style={{ background: 'var(--card-gradient)', border: '1px solid #10b981', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h4 style={{ margin: 0, color: '#6ee7b7', fontSize: '1rem' }}>AI Cash-Crunch Predictor</h4>
                     <Landmark size={18} color="#10b981" />
@@ -2048,11 +2048,11 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                     <p style={{ fontSize: '0.8rem', opacity: 0.8, margin: 0, lineHeight: 1.4 }}>₹12 Lakh locked in unpaid invoices. Recommending immediate factoring.</p>
                   </div>
                   <div style={{ marginTop: 'auto' }}>
-                    <button className="btn-primary" style={{ width: '100%', background: '#10b981', border: 'none', color: 'black', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }} onClick={async () => { try { const res = await fetch('http://localhost:3001/owner/cash-crunch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ totalUnpaid: 1200000, deficitDays: 14 }) }); const data = await res.json(); alert(data.message || 'Invoice factoring initiated successfully.'); } catch (err) { alert('Error: Could not reach the owner server at http://localhost:3001/owner/cash-crunch. Please ensure the backend is running.'); } }}><RefreshCcw size={14} style={{ display: 'inline', marginRight: '6px' }} /> Auto-Factor Unpaid Invoices</button>
+                    <button className="btn-primary" style={{ width: '100%', background: '#10b981', border: 'none', color: 'white', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }} onClick={async () => { try { const res = await fetch('http://localhost:3001/owner/cash-crunch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ totalUnpaid: 1200000, deficitDays: 14 }) }); const data = await res.json(); alert(data.message || 'Invoice factoring initiated successfully.'); } catch (err) { alert('Error: Could not reach the owner server at http://localhost:3001/owner/cash-crunch. Please ensure the backend is running.'); } }}><RefreshCcw size={14} style={{ display: 'inline', marginRight: '6px' }} /> Auto-Factor Unpaid Invoices</button>
                   </div>
                 </div>
 
-                <div className="stat-card" style={{ background: 'linear-gradient(180deg, #0f172a 0%, #312e81 100%)', border: '1px solid #6366f1', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div className="stat-card" style={{ background: 'var(--card-gradient)', border: '1px solid #6366f1', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <h4 style={{ margin: 0, color: '#a5b4fc', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}><BookOpen size={16} /> AI 'Bahi-Khata' Scanner</h4>
                     <span style={{ fontSize: '0.6rem', color: '#818cf8', fontWeight: 'bold', letterSpacing: '1px', background: 'rgba(99,102,241,0.2)', padding: '2px 6px', borderRadius: '4px' }}>LEGACY SYNC</span>
@@ -2066,17 +2066,17 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   </div>
                 </div>
 
-                <div className="stat-card" style={{ background: 'linear-gradient(180deg, #0f172a 0%, #422006 100%)', border: '1px solid #eab308', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div className="stat-card" style={{ background: 'var(--card-gradient)', border: '1px solid var(--accent)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <h4 style={{ margin: 0, color: '#fde047', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}><Award size={16} /> AI 'Mahajan' Trust-Score</h4>
-                    <span style={{ fontSize: '0.6rem', color: '#eab308', fontWeight: 'bold', letterSpacing: '1px', textTransform: 'uppercase' }}>Cluster Reputation</span>
+                    <h4 style={{ margin: 0, color: 'var(--accent)', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: '8px' }}><Award size={16} /> AI 'Mahajan' Trust-Score</h4>
+                    <span style={{ fontSize: '0.6rem', color: 'var(--accent)', fontWeight: 'bold', letterSpacing: '1px', textTransform: 'uppercase' }}>Cluster Reputation</span>
                   </div>
                   <div>
-                    <div style={{ fontSize: '1.4rem', fontWeight: '900', color: '#eab308', marginBottom: '8px' }}>A+ (Trust Index: 94)</div>
+                    <div style={{ fontSize: '1.4rem', fontWeight: '900', color: 'var(--accent)', marginBottom: '8px' }}>A+ (Trust Index: 94)</div>
                     <p style={{ fontSize: '0.8rem', opacity: 0.8, margin: 0, lineHeight: 1.4 }}>Peer-verified reputation for payment punctuality & quality consistency in Bhilwara.</p>
                   </div>
                   <div style={{ marginTop: 'auto' }}>
-                    <button className="btn-primary" style={{ width: '100%', background: '#eab308', border: 'none', color: 'black', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }} onClick={async () => { try { const res = await fetch('http://localhost:3001/owner/trust-score', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ score: 'A+', trustIndex: 94, suppliers: 15 }) }); const data = await res.json(); alert(data.message || 'Trust-Score shared successfully.'); } catch (err) { alert('Error: Could not reach the owner server at http://localhost:3001/owner/trust-score. Please ensure the backend is running.'); } }}>Share Trust-Score with Suppliers</button>
+                    <button className="btn-primary" style={{ width: '100%', background: 'var(--accent)', border: 'none', color: 'white', fontWeight: 'bold', padding: '10px', borderRadius: '8px', cursor: 'pointer' }} onClick={async () => { try { const res = await fetch('http://localhost:3001/owner/trust-score', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ score: 'A+', trustIndex: 94, suppliers: 15 }) }); const data = await res.json(); alert(data.message || 'Trust-Score shared successfully.'); } catch (err) { alert('Error: Could not reach the owner server at http://localhost:3001/owner/trust-score. Please ensure the backend is running.'); } }}>Share Trust-Score with Suppliers</button>
                   </div>
                 </div>
               </div >
@@ -2084,7 +2084,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
               <div className="charts-grid" style={{ marginTop: '1.5rem' }}>
                 <div className="stat-card">
                   <h3 className="section-title">Payment Cycle & Credit Risk Tracker</h3>
-                  <div style={{ padding: '1rem', background: 'rgba(0,0,0,0.2)', borderRadius: '12px' }}>
+                  <div style={{ padding: '1rem', background: 'var(--bg-card)', borderRadius: '12px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                       <span style={{ fontSize: '0.8rem', opacity: 0.6 }}>Avg. Payment Collection Period</span>
                       <span style={{ fontWeight: '700' }}>{typeof creditRisk.avgCollectionDays === 'object' ? JSON.stringify(creditRisk.avgCollectionDays) : creditRisk.avgCollectionDays || '28'} Days</span>
@@ -2107,10 +2107,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                       { name: 'Yarn', target: 90, actual: 85 },
                       { name: 'Power', target: 60, actual: 40 },
                     ]}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
-                      <XAxis dataKey="name" stroke="#94a3b8" />
-                      <YAxis stroke="#94a3b8" />
-                      <Tooltip contentStyle={{ background: '#1e293b', border: 'none' }} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+                      <XAxis dataKey="name" stroke="var(--text-muted)" />
+                      <YAxis stroke="var(--text-muted)" />
+                      <Tooltip contentStyle={{ background: 'var(--bg-card)', border: 'none' }} />
                       <Bar dataKey="actual" fill="var(--primary)" radius={[4, 4, 0, 0]} />
                       <Bar dataKey="target" fill="rgba(255,255,255,0.1)" radius={[4, 4, 0, 0]} />
                     </BarChart>
@@ -2146,10 +2146,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   <div className="stat-header"><span className="stat-label">Subsidy Status</span><Building2 size={20} color="var(--accent)" /></div>
                   <div className="stat-value" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     {typeof govSchemes.tufsStatus === 'object' ? JSON.stringify(govSchemes.tufsStatus) : govSchemes.tufsStatus || 'Eligible'}
-                    <span style={{ fontSize: '0.7rem', padding: '2px 8px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px', color: '#3b82f6', border: '1px solid rgba(59, 130, 246, 0.3)' }}>View Intel</span>
+                    <span style={{ fontSize: '0.7rem', padding: '2px 8px', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px', color: 'var(--primary)', border: '1px solid rgba(59, 130, 246, 0.3)' }}>View Intel</span>
                   </div>
                   <div className="stat-label">TUFS / RIPS Potential</div>
-                  <button className="btn-primary" style={{ width: '100%', marginTop: '1rem', background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6', fontSize: '0.8rem', padding: '0.5rem', border: '1px solid rgba(59, 130, 246, 0.3)', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px' }} onClick={(e) => { e.stopPropagation(); setIsSubsidyModalOpen(true); }}>Check Subsidy Eligibility</button>
+                  <button className="btn-primary" style={{ width: '100%', marginTop: '1rem', background: 'rgba(59, 130, 246, 0.1)', color: 'var(--primary)', fontSize: '0.8rem', padding: '0.5rem', border: '1px solid rgba(59, 130, 246, 0.3)', fontWeight: 'bold', cursor: 'pointer', borderRadius: '4px' }} onClick={(e) => { e.stopPropagation(); setIsSubsidyModalOpen(true); }}>Check Subsidy Eligibility</button>
                 </div>
               </div>
 
@@ -2367,10 +2367,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
         {
           activeTab === 'agents' && (
             <div className="agents-panel animate-fade-in" style={{ paddingBottom: '2rem' }}>
-              <div className="stat-card" style={{ marginBottom: '1.5rem', background: 'linear-gradient(90deg, rgba(99, 102, 241, 0.1) 0%, transparent 100%)', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
+              <div className="stat-card" style={{ marginBottom: '1.5rem', background: 'var(--card-gradient)', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                   <div style={{ padding: '12px', background: 'var(--primary)', borderRadius: '12px' }}>
-                    <Bot size={32} color="#fff" />
+                    <Bot size={32} color="var(--bg-card)" />
                   </div>
                   <div>
                     <h2 style={{ fontSize: '1.5rem', margin: 0 }}>SmartFactory AI: The Power of 52</h2>
@@ -2382,7 +2382,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
                 {agentsData.map(agent => (
                   <div key={typeof agent.id === 'object' ? JSON.stringify(agent.id) : agent.id} style={{
-                    background: 'rgba(255,255,255,0.02)',
+                    background: 'var(--bg-dark)',
                     border: '1px solid rgba(255,255,255,0.05)',
                     borderRadius: '12px',
                     padding: '16px',
@@ -2390,7 +2390,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                     cursor: 'default'
                   }}
                     onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(99, 102, 241, 0.05)'; e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.3)'; }}
-                    onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; }}
+                    onMouseOut={(e) => { e.currentTarget.style.background = 'var(--bg-dark)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
                       <span style={{ fontSize: '0.65rem', background: 'rgba(255,255,255,0.1)', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{typeof agent.category === 'object' ? JSON.stringify(agent.category) : agent.category}</span>
@@ -2413,7 +2413,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
         {
           activeTab === 'gov' && (
             <div className="gov-panel animate-fade-in">
-              <div className="stat-card" style={{ marginBottom: '1.5rem', background: 'linear-gradient(90deg, #1e293b 0%, #0f172a 100%)', border: '1px solid #0ea5e9' }}>
+              <div className="stat-card" style={{ marginBottom: '1.5rem', background: 'linear-gradient(90deg, var(--bg-card) 0%, var(--bg-dark) 100%)', border: '1px solid #0ea5e9' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                   <div style={{ padding: '12px', background: 'rgba(14, 165, 233, 0.1)', borderRadius: '12px' }}>
                     <Building2 size={32} color="#0ea5e9" />
@@ -2431,7 +2431,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   <div style={{ opacity: 0.6, textAlign: 'center', padding: '2rem' }}>
                     <Database size={48} style={{ marginBottom: '10px' }} />
                     <p style={{ margin: '1rem 0' }}>Connect your Udyam Aadhar to track live applications.</p>
-                    <button className="btn-cyan-gradient" style={{ padding: '10px 30px', border: 'none', borderRadius: '8px', color: 'white', fontWeight: '700', cursor: 'pointer', background: '#0ea5e9' }}>LINK TO UDYAM</button>
+                    <button className="btn-cyan-gradient" style={{ padding: '10px 30px', border: 'none', borderRadius: '8px', color: 'var(--bg-card)', fontWeight: '700', cursor: 'pointer', background: '#0ea5e9' }}>LINK TO UDYAM</button>
                   </div>
                 </div>
                 <div className="stat-card">
@@ -2469,7 +2469,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
               <div className="stat-card" style={{ marginTop: '1.5rem', background: 'rgba(16, 185, 129, 0.05)' }}>
                 <h4 style={{ marginBottom: '1rem' }}>Live Government Insights for Bhilwara</h4>
                 <p style={{ fontSize: '0.9rem', opacity: 0.8 }}>AI recommends applying for **M-SME Excellence Awards** based on your current PEI of {typeof pei === 'object' ? JSON.stringify(pei) : pei}% and ZLD compliance status.</p>
-                <button className="btn-primary" style={{ marginTop: '1.5rem', background: '#0ea5e9', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Download Compliance Report</button>
+                <button className="btn-primary" style={{ marginTop: '1.5rem', background: '#0ea5e9', color: 'var(--bg-card)', border: 'none', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Download Compliance Report</button>
               </div>
 
               {/* HACKATHON WINNER: GenAI Auto-Filler */}
@@ -2485,7 +2485,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                 <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem' }}>
                   <button
                     className="btn-primary"
-                    style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#ec4899', color: 'white', fontWeight: 'bold', padding: '0.75rem 1.5rem', borderRadius: '8px', border: 'none', cursor: 'pointer' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#ec4899', color: 'var(--bg-card)', fontWeight: 'bold', padding: '0.75rem 1.5rem', borderRadius: '8px', border: 'none', cursor: 'pointer' }}
                     onClick={() => alert('GenAI is drafting your RIPS 2022 application... Factory data extracted successfully! PDF generated.')}
                   >
                     <Bot size={18} /> GENERATE RIPS APPLICATION
@@ -2588,7 +2588,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
               <div className="modal-header" style={{ marginBottom: '1.5rem', paddingBottom: '1.5rem' }}>
                 <div className="modal-title" style={{ color: '#22d3ee', fontSize: '1.2rem', marginBottom: '0.5rem' }}>Cluster AI – Industrial Benchmark Intelligence</div>
-                <p style={{ color: '#94a3b8', fontSize: '0.9rem', margin: 0 }}>AI-powered comparison of factory performance across the entire industrial cluster.</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: 0 }}>AI-powered comparison of factory performance across the entire industrial cluster.</p>
               </div>
 
               <div className="cluster-section-title"><Activity size={18} /> Cluster Performance Overview</div>
@@ -2620,17 +2620,17 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                 <div className="cluster-metric-card">
                   <div className="cluster-section-title" style={{ border: 'none', padding: 0 }}><Factory size={18} /> Production Benchmark</div>
                   <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: '#94a3b8' }}>Your Production:</span> <span style={{ fontWeight: 'bold' }}>12,500 units/day</span></div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: '#94a3b8' }}>Cluster Average:</span> <span style={{ fontWeight: 'bold', color: '#fbbf24' }}>10,800 units/day</span></div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: '#94a3b8' }}>Top Factory:</span> <span style={{ fontWeight: 'bold', color: '#8b5cf6' }}>15,200 units/day</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: 'var(--text-muted)' }}>Your Production:</span> <span style={{ fontWeight: 'bold' }}>12,500 units/day</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: 'var(--text-muted)' }}>Cluster Average:</span> <span style={{ fontWeight: 'bold', color: '#fbbf24' }}>10,800 units/day</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: 'var(--text-muted)' }}>Top Factory:</span> <span style={{ fontWeight: 'bold', color: '#8b5cf6' }}>15,200 units/day</span></div>
                   </div>
                 </div>
 
                 <div className="cluster-metric-card">
                   <div className="cluster-section-title" style={{ border: 'none', padding: 0 }}><Zap size={18} /> Energy Intelligence</div>
                   <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: '#94a3b8' }}>Your Cost:</span> <span style={{ fontWeight: 'bold', color: '#ef4444' }}>₹2.3L / month</span></div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: '#94a3b8' }}>Cluster Average:</span> <span style={{ fontWeight: 'bold' }}>₹2.0L / month</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: 'var(--text-muted)' }}>Your Cost:</span> <span style={{ fontWeight: 'bold', color: '#ef4444' }}>₹2.3L / month</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: 'var(--text-muted)' }}>Cluster Average:</span> <span style={{ fontWeight: 'bold' }}>₹2.0L / month</span></div>
                   </div>
                   <div className="cluster-insight" style={{ borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)', color: '#fca5a5' }}>
                     Your factory energy cost is slightly higher than the cluster average. AI recommends energy optimization.
@@ -2640,8 +2640,8 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                 <div className="cluster-metric-card">
                   <div className="cluster-section-title" style={{ border: 'none', padding: 0 }}><Users size={18} /> Workforce Productivity</div>
                   <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: '#94a3b8' }}>Your Productivity:</span> <span style={{ fontWeight: 'bold', color: '#10b981' }}>85%</span></div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: '#94a3b8' }}>Cluster Average:</span> <span style={{ fontWeight: 'bold' }}>78%</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: 'var(--text-muted)' }}>Your Productivity:</span> <span style={{ fontWeight: 'bold', color: '#10b981' }}>85%</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: 'var(--text-muted)' }}>Cluster Average:</span> <span style={{ fontWeight: 'bold' }}>78%</span></div>
                   </div>
                   <div className="cluster-insight">
                     Your workforce productivity is above the cluster average.
@@ -2651,10 +2651,10 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                 <div className="cluster-metric-card">
                   <div className="cluster-section-title" style={{ border: 'none', padding: 0 }}><TrendingUp size={18} /> Demand Prediction</div>
                   <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: '#94a3b8' }}>Next Month Trend:</span> <span style={{ fontWeight: 'bold', color: '#10b981' }}>HIGH</span></div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: '#94a3b8' }}>Market Price Exp:</span> <span style={{ fontWeight: 'bold', color: '#10b981' }}>+6% Increase</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: 'var(--text-muted)' }}>Next Month Trend:</span> <span style={{ fontWeight: 'bold', color: '#10b981' }}>HIGH</span></div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}><span style={{ color: 'var(--text-muted)' }}>Market Price Exp:</span> <span style={{ fontWeight: 'bold', color: '#10b981' }}>+6% Increase</span></div>
                   </div>
-                  <div className="cluster-insight" style={{ borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', color: '#93c5fd' }}>
+                  <div className="cluster-insight" style={{ borderColor: 'var(--primary)', backgroundColor: 'rgba(59, 130, 246, 0.1)', color: '#93c5fd' }}>
                     Demand for textile products is expected to increase across the cluster.
                   </div>
                 </div>
@@ -2665,17 +2665,17 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                   <div className="cluster-section-title"><Award size={18} /> Top Performing Factories</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '15px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '10px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
-                      <div style={{ width: '30px', height: '30px', background: '#fbbf24', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', color: 'black' }}>1</div>
+                      <div style={{ width: '30px', height: '30px', background: '#fbbf24', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', color: 'white' }}>1</div>
                       <div style={{ flex: 1, fontWeight: 'bold' }}>Shree Textiles</div>
                       <div style={{ color: '#fbbf24', fontWeight: 'bold' }}>Growth Score: 91</div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '10px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px' }}>
-                      <div style={{ width: '30px', height: '30px', background: '#94a3b8', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', color: 'black' }}>2</div>
+                      <div style={{ width: '30px', height: '30px', background: 'var(--text-muted)', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', color: 'white' }}>2</div>
                       <div style={{ flex: 1, fontWeight: 'bold' }}>Surya Fabrics</div>
-                      <div style={{ color: '#94a3b8', fontWeight: 'bold' }}>Growth Score: 88</div>
+                      <div style={{ color: 'var(--text-muted)', fontWeight: 'bold' }}>Growth Score: 88</div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '10px', background: 'rgba(16, 185, 129, 0.2)', border: '1px solid #10b981', borderRadius: '8px' }}>
-                      <div style={{ width: '30px', height: '30px', background: '#10b981', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', color: 'black' }}>3</div>
+                      <div style={{ width: '30px', height: '30px', background: '#10b981', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', color: 'white' }}>3</div>
                       <div style={{ flex: 1, fontWeight: 'bold', color: '#10b981' }}>Your Factory</div>
                       <div style={{ color: '#10b981', fontWeight: 'bold' }}>Growth Score: 82</div>
                     </div>
@@ -2788,29 +2788,29 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
               <button className="modal-close" onClick={() => setIsSubsidyModalOpen(false)}>✕</button>
 
               <div className="modal-header" style={{ marginBottom: '1.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid rgba(59, 130, 246, 0.2)' }}>
-                <div className="modal-title" style={{ color: '#60a5fa', fontSize: '1.2rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                <div className="modal-title" style={{ color: 'var(--primary)', fontSize: '1.2rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                   <Landmark size={24} /> Government Subsidy Intelligence
                 </div>
-                <p style={{ color: '#94a3b8', fontSize: '0.9rem', margin: 0 }}>AI-powered system that identifies government subsidies available for the factory.</p>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: 0 }}>AI-powered system that identifies government subsidies available for the factory.</p>
               </div>
 
-              <div className="cluster-section-title" style={{ color: '#60a5fa', borderBottomColor: 'rgba(96, 165, 250, 0.2)' }}><Briefcase size={18} /> Eligible Government Schemes</div>
+              <div className="cluster-section-title" style={{ color: 'var(--primary)', borderBottomColor: 'rgba(96, 165, 250, 0.2)' }}><Briefcase size={18} /> Eligible Government Schemes</div>
               <div className="modal-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', marginBottom: '1.5rem' }}>
                 <div className="subsidy-card subsidy-card-glow">
-                  <div className="metric-title" style={{ color: '#f8fafc' }}>RIPS 2022</div>
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '10px' }}>Rajasthan Investment Promotion Scheme</div>
+                  <div className="metric-title" style={{ color: 'var(--text-main)' }}>RIPS 2022</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '10px' }}>Rajasthan Investment Promotion Scheme</div>
                   <div className="metric-value" style={{ color: '#10b981', fontSize: '1.2rem' }}>₹1.2 Crore Capital Subsidy</div>
                   <div style={{ marginTop: '10px' }}><span className="status-badge badge-eligible">Eligible</span></div>
                 </div>
                 <div className="subsidy-card subsidy-card-glow">
-                  <div className="metric-title" style={{ color: '#f8fafc' }}>TUFS</div>
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '10px' }}>Technology Upgradation Fund Scheme</div>
-                  <div className="metric-value" style={{ color: '#3b82f6', fontSize: '1.2rem' }}>25% Machinery Subsidy</div>
+                  <div className="metric-title" style={{ color: 'var(--text-main)' }}>TUFS</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '10px' }}>Technology Upgradation Fund Scheme</div>
+                  <div className="metric-value" style={{ color: 'var(--primary)', fontSize: '1.2rem' }}>25% Machinery Subsidy</div>
                   <div style={{ marginTop: '10px' }}><span className="status-badge badge-review">In Review</span></div>
                 </div>
                 <div className="subsidy-card subsidy-card-glow">
-                  <div className="metric-title" style={{ color: '#f8fafc' }}>Solar Energy Subsidy</div>
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '10px' }}>State Renewable Energy Board</div>
+                  <div className="metric-title" style={{ color: 'var(--text-main)' }}>Solar Energy Subsidy</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '10px' }}>State Renewable Energy Board</div>
                   <div className="metric-value" style={{ color: '#fbbf24', fontSize: '1.2rem' }}>₹85,000 Monthly Savings</div>
                   <div style={{ marginTop: '10px' }}><span className="status-badge badge-approved">Approved</span></div>
                 </div>
@@ -2818,7 +2818,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
               <div className="modal-grid" style={{ marginBottom: '1.5rem', gridTemplateColumns: '1fr 1fr' }}>
                 <div className="subsidy-card">
-                  <div className="cluster-section-title" style={{ color: '#60a5fa', borderBottom: 'none', padding: 0 }}><Activity size={18} /> Application Status</div>
+                  <div className="cluster-section-title" style={{ color: 'var(--primary)', borderBottom: 'none', padding: 0 }}><Activity size={18} /> Application Status</div>
                   <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
@@ -2826,7 +2826,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                         <span className="status-badge badge-not-applied">Not Applied</span>
                       </div>
                       <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px' }}>
-                        <div style={{ width: '0%', height: '100%', background: '#94a3b8', borderRadius: '3px' }}></div>
+                        <div style={{ width: '0%', height: '100%', background: 'var(--text-muted)', borderRadius: '3px' }}></div>
                       </div>
                     </div>
                     <div>
@@ -2844,25 +2844,25 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                         <span className="status-badge badge-approved">Approved</span>
                       </div>
                       <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px' }}>
-                        <div style={{ width: '100%', height: '100%', background: '#3b82f6', borderRadius: '3px', boxShadow: '0 0 8px #3b82f6' }}></div>
+                        <div style={{ width: '100%', height: '100%', background: 'var(--primary)', borderRadius: '3px', boxShadow: '0 0 8px var(--primary)' }}></div>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="subsidy-card">
-                  <div className="cluster-section-title" style={{ color: '#60a5fa', borderBottom: 'none', padding: 0 }}><DollarSign size={18} /> Estimated Financial Benefit</div>
+                  <div className="cluster-section-title" style={{ color: 'var(--primary)', borderBottom: 'none', padding: 0 }}><DollarSign size={18} /> Estimated Financial Benefit</div>
                   <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '15px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '10px' }}>
-                      <span style={{ color: '#94a3b8' }}>Capital Subsidy:</span>
+                      <span style={{ color: 'var(--text-muted)' }}>Capital Subsidy:</span>
                       <span style={{ fontWeight: 'bold', color: '#10b981', fontSize: '1.1rem' }}>₹1.2 Crore</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '10px' }}>
-                      <span style={{ color: '#94a3b8' }}>Machinery Subsidy:</span>
+                      <span style={{ color: 'var(--text-muted)' }}>Machinery Subsidy:</span>
                       <span style={{ fontWeight: 'bold', color: '#10b981', fontSize: '1.1rem' }}>₹45 Lakh</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span style={{ color: '#94a3b8' }}>Energy Savings:</span>
+                      <span style={{ color: 'var(--text-muted)' }}>Energy Savings:</span>
                       <span style={{ fontWeight: 'bold', color: '#10b981', fontSize: '1.1rem' }}>₹10 Lakh / year</span>
                     </div>
                   </div>
@@ -2871,7 +2871,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
               <div className="modal-grid" style={{ marginBottom: '1.5rem', gridTemplateColumns: '1.5fr 1fr' }}>
                 <div className="subsidy-card" style={{ background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.05))', borderColor: 'rgba(59, 130, 246, 0.3)' }}>
-                  <div className="cluster-section-title" style={{ color: '#60a5fa', borderBottom: 'none', padding: 0 }}><Sparkles size={18} /> AI Auto-Fill Application</div>
+                  <div className="cluster-section-title" style={{ color: 'var(--primary)', borderBottom: 'none', padding: 0 }}><Sparkles size={18} /> AI Auto-Fill Application</div>
                   <p style={{ color: '#cbd5e1', fontSize: '0.9rem', lineHeight: '1.5', margin: '1rem 0' }}>
                     The system automatically collects factory data including energy usage, worker count, and machinery details to generate government-ready application forms.
                   </p>
@@ -2969,14 +2969,14 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
                 </div>
 
                 <div className="subsidy-card">
-                  <div className="cluster-section-title" style={{ color: '#60a5fa', borderBottom: 'none', padding: 0 }}><Activity size={18} /> Subsidy Deadline Tracker</div>
+                  <div className="cluster-section-title" style={{ color: 'var(--primary)', borderBottom: 'none', padding: 0 }}><Activity size={18} /> Subsidy Deadline Tracker</div>
                   <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '15px' }}>
                     <div style={{ background: 'rgba(245, 158, 11, 0.1)', padding: '10px', borderRadius: '8px', borderLeft: '3px solid #f59e0b' }}>
-                      <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>TUFS Application Deadline:</div>
-                      <div style={{ fontWeight: 'bold', color: '#f59e0b', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '5px' }}>12 April <span style={{ fontSize: '0.75rem', background: '#f59e0b', color: 'black', padding: '2px 6px', borderRadius: '10px' }}>Urgent</span></div>
+                      <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>TUFS Application Deadline:</div>
+                      <div style={{ fontWeight: 'bold', color: '#f59e0b', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '5px' }}>12 April <span style={{ fontSize: '0.75rem', background: '#f59e0b', color: 'white', padding: '2px 6px', borderRadius: '10px' }}>Urgent</span></div>
                     </div>
                     <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '10px', borderRadius: '8px', borderLeft: '3px solid #10b981' }}>
-                      <div style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Solar Subsidy Window:</div>
+                      <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Solar Subsidy Window:</div>
                       <div style={{ fontWeight: 'bold', color: '#10b981', fontSize: '1.1rem' }}>25 days remaining</div>
                     </div>
                   </div>
@@ -2985,7 +2985,7 @@ import { agentsData } from "../data/agentsData"; export default function Dashboa
 
               <div style={{ marginTop: '2rem', textAlign: 'center' }}>
                 <button
-                  style={{ background: 'transparent', border: '1px solid #3b82f6', color: '#3b82f6', padding: '10px 25px', borderRadius: '8px', fontSize: '0.9rem', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease' }}
+                  style={{ background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)', padding: '10px 25px', borderRadius: '8px', fontSize: '0.9rem', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s ease' }}
                   onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)'; }}
                   onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; }}
                   onClick={() => {
